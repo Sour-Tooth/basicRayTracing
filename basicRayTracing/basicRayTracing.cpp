@@ -16,19 +16,24 @@ int main() {
 	// setup file
 	std::cout << "P3\n" << Config::canvasWidth << ' ' << Config::canvasHeight << '\n' << Config::maxColorValue << '\n';
 
-	Sphere redSphere{ 1.55, {0, 0, 2}, {150, 50, 50} }; // radius, center, color
+	Sphere redSphere{ 0.4, {0, 0, 2}, {150, 50, 50} }; // radius, center, color
 	Sphere greenSphere{ 0.2, {0.2, 0.2, 1.4}, {50, 150, 50} };
-	
-	Scene scene{};
-	scene.addSphere(redSphere);
-	scene.addSphere(greenSphere);
 
-	// scanlines 
+	Sphere sphere1{ 1, {0, -1, 3 }, {255, 0, 0}};
+	Sphere sphere2{ 1, {0, 2, 4 }, {0, 0, 225} };
+	Sphere sphere3{ 1, {0, -2, 4 }, {0, 225, 0} };
+
+	Scene scene{};
+	scene.addSphere(sphere1);
+	scene.addSphere(sphere2);
+	scene.addSphere(sphere3);
+
+	// scanlines. 
 	auto& cw = Config::canvasWidth;
 	auto& ch = Config::canvasHeight;
 
-	for (int x{ -cw/2 }; x < cw/2; ++x) {
-		for (int y{ -ch/2}; y < ch/2; ++y) {
+	for (int x{}; x < cw; ++x) {
+		for (int y{}; y < ch; ++y) {
 			Ray r{ Config::cameraOrigin, canvasToViewport(x, y) };
 			color_t color{ traceRay(r, scene) };
 			writePixel(color);
@@ -43,24 +48,21 @@ inline void writePixel(const color_t& color) {
 };
 
 // relative to bottomLeftCorner of viewport
-// offset result by {unitW, unitH, 0}
 point3_t inline canvasToViewport(int x, int y) {
-	//std::cout << x << '*' << Config::viewportWidth << '/' << Config::canvasWidth << '\n'; //- (Config::viewportWidth / 2),
-	//std::cout << y << '*' << Config::viewportHeight << '/' << Config::canvasHeight << '\n'; // - (Config::viewportHeight / 2),
-	
 	return Vec3 {
-		x * (Config::viewportWidth / Config::canvasWidth), //- (Config::viewportWidth / 2),
-		y * (Config::viewportHeight / Config::canvasHeight),// - (Config::viewportHeight / 2),
-
+		x * (Config::viewportWidth / Config::canvasWidth) - (Config::viewportWidth / 2),
+		y * (Config::viewportHeight / Config::canvasHeight) - (Config::viewportHeight / 2),
 		Config::focalLength
 	};
 };
 
 color_t traceRay(Ray r, Scene scene) {
 	double closestT{ std::numeric_limits<double>::max() };
-	Sphere* closestSphere{ nullptr };
+	const Sphere* closestSphere{ nullptr };
 
-	for (auto& sphere : scene.getSpheres()) {
+	const auto& spheres{ scene.getSpheres() };
+
+	for (const auto& sphere : spheres) {
 		const HitRec rec{ sphere.hit(r) };
 
 		// go through all intersections with sphere and pick closest in bounds
@@ -69,19 +71,15 @@ color_t traceRay(Ray r, Scene scene) {
 				if (t > Config::clipStart && t < Config::clipEnd && t < closestT) { // t is already a ray sent out from the camera, therefor it can be compared to clip distances directly
 					closestT = t;
 					closestSphere = &sphere;
-
-					std::cout << &sphere << ' ' << closestSphere << " : " << closestSphere->getColor() << '\n';
 				};
 			};
 		};
 	};
 
-	std::cout << closestSphere << " : " << closestSphere->getColor() << '\n';
-
-	if (closestT != std::numeric_limits<double>::max()) {
+	if (closestSphere != nullptr) {
 		return { closestSphere->getColor() };
 	} else {
-		return { 50, 50, 150 }; // muted blue
+		return { 255, 255, 255 }; // white background
 	};
 
 	// for sphere in scene

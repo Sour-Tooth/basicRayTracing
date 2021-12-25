@@ -5,7 +5,7 @@
 #include "hitRec.h"
 
 
-const HitRec Sphere::hit(Ray r) {
+HitRec Sphere::hit(Ray r) const {
 	HitRec rec{ false };
 
 	// calc if sphere and ray hit; take closest intersection

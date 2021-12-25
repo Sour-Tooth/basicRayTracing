@@ -20,6 +20,7 @@ public:
 	//Sphere setSphere(Sphere sphere) { m_sphere = sphere; };
 
 	sphereList_t getSpheres() const { return m_spheres; };
+	sphereList_t& getSpheresRef() { return m_spheres; };
 	void addSphere(Sphere newSphere) { m_spheres.push_back(newSphere); };
 
 };
