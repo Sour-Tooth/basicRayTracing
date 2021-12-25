@@ -11,6 +11,7 @@
 inline void writePixel(const color_t& color);
 inline point3_t canvasToViewport(int x, int y);
 color_t traceRay(Ray r, Scene scene);
+color_t quadrants(int x, int y);
 
 int main() {
 	// setup file
@@ -19,21 +20,21 @@ int main() {
 	Sphere redSphere{ 0.4, {0, 0, 2}, {150, 50, 50} }; // radius, center, color
 	Sphere greenSphere{ 0.2, {0.2, 0.2, 1.4}, {50, 150, 50} };
 
-	Sphere sphere1{ 1, {0, -1, 3 }, {255, 0, 0}};
-	Sphere sphere2{ 1, {0, 2, 4 }, {0, 0, 225} };
-	Sphere sphere3{ 1, {0, -2, 4 }, {0, 225, 0} };
+	Sphere sphere1{ 1, {0, -1, 3 }, {255, 0, 0} };
+	Sphere sphere2{ 1, {2, 0, 4 }, {0, 0, 255} };
+	Sphere sphere3{ 1, {-2, 0, 4 }, {0, 255, 0} };
 
 	Scene scene{};
 	scene.addSphere(sphere1);
 	scene.addSphere(sphere2);
 	scene.addSphere(sphere3);
 
-	// scanlines. 
 	auto& cw = Config::canvasWidth;
 	auto& ch = Config::canvasHeight;
 
-	for (int x{}; x < cw; ++x) {
-		for (int y{}; y < ch; ++y) {
+	// for each point on canvas, scanline and convert to coordinate system and render 
+	for (int y{ ch/2 }; y > -ch/2; --y) {
+		for (int x{ -cw/2 }; x < cw/2; ++x) {
 			Ray r{ Config::cameraOrigin, canvasToViewport(x, y) };
 			color_t color{ traceRay(r, scene) };
 			writePixel(color);
@@ -50,10 +51,29 @@ inline void writePixel(const color_t& color) {
 // relative to bottomLeftCorner of viewport
 point3_t inline canvasToViewport(int x, int y) {
 	return Vec3 {
-		x * (Config::viewportWidth / Config::canvasWidth) - (Config::viewportWidth / 2),
-		y * (Config::viewportHeight / Config::canvasHeight) - (Config::viewportHeight / 2),
+		x * (Config::viewportWidth / Config::canvasWidth),
+		y * (Config::viewportHeight / Config::canvasHeight),
 		Config::focalLength
 	};
+};
+
+color_t quadrants(int x, int y) {
+	// quadrants 1 -> 4
+	if (x > 0 && y > 0) {
+		return{ 255, 255, 255 };
+	}
+	else if (x > 0 && y < 0) {
+		return{ 255, 0, 0 };
+	}
+	else if (x < 0 && y < 0) {
+		return { 0, 255, 0 };
+	}
+	else if (x < 0 && y > 0) {
+		return { 0, 0, 255 };
+	}
+	else {
+		return { 0, 0, 0 };
+	}
 };
 
 color_t traceRay(Ray r, Scene scene) {
