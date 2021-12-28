@@ -6,7 +6,7 @@
 
 
 HitRec Sphere::hit(Ray r) const {
-	HitRec rec{ false };
+	HitRec rec{ .doesHit = false };
 
 	// calc if sphere and ray hit; take closest intersection
 	const auto D{ r.getDirection() };
@@ -24,8 +24,12 @@ HitRec Sphere::hit(Ray r) const {
 	const double t2{ (-b - std::sqrt(discriminant)) / (2 * a) };
 
 	rec.doesHit = true;
-	rec.intersections.push_back(t1);
-	rec.intersections.push_back(t2);
+
+	// PROBLEM: THIS IGNROES CLIPPING BOUNDS
+	double t{ t1 < t2 ? t1 : t2 };
+	rec.intersectionDistance = t;
+
+	rec.normal = unitVector( r.at(t) - Sphere::getCenter() );
 
 	return rec;
 };

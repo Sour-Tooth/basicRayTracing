@@ -23,8 +23,8 @@ public:
 	void setZ(double s) { m_z = s; };
 
 	// utilty
-	double length() { return sqrt(lengthSquared()); };
-	double lengthSquared() { return m_x * m_x + m_y * m_y + m_z * m_z; };
+	double length() const { return sqrt(lengthSquared()); };
+	double lengthSquared() const { return m_x * m_x + m_y * m_y + m_z * m_z; };
 
 	friend Vec3 operator- (Vec3&);
 	friend Vec3 operator+= (Vec3& v, double s);

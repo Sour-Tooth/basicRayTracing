@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\sceneComponents">
+      <UniqueIdentifier>{9b2142dd-9f48-421a-a59e-2bac0b2c85b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicRayTracing.cpp">
@@ -46,6 +49,18 @@
     </ClInclude>
     <ClInclude Include="hitRec.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Source Files\sceneComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="light_point.h">
+      <Filter>Source Files\sceneComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="light_ambient.h">
+      <Filter>Source Files\sceneComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="light_directional.h">
+      <Filter>Source Files\sceneComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,9 +5,13 @@
 
 #include "sphere.h"
 
+class Sphere;
+
 struct HitRec {
+	const Sphere* sphere{ nullptr };
 	bool doesHit{ false };
-	std::vector<double> intersections;
+	double intersectionDistance;
+	Vec3 normal;
 };
 
 #endif // !HIT_REC_H
