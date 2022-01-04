@@ -4,7 +4,6 @@
 #include "vec3.h"
 #include "hitRec.h"
 
-
 HitRec Sphere::hit(Ray r) const {
 	HitRec rec{ .doesHit = false };
 
