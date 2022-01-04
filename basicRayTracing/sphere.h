@@ -15,9 +15,9 @@ private:
 public:
 	Sphere(double radius, point3_t center, color_t color) : m_radius{ radius }, m_center{ center }, m_color{ color } {};
 
-	double getRadius() const { return m_radius; };
-	point3_t getCenter() const { return m_center; };
-	color_t getColor() const { return m_color; };
+	double getRadius() const { return m_radius; }
+	point3_t getCenter() const { return m_center; }
+	color_t getColor() const { return m_color; }
 
 	HitRec hit(Ray r) const;
 };

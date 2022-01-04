@@ -16,9 +16,6 @@
     <Filter Include="Source Files\sceneComponents">
       <UniqueIdentifier>{9b2142dd-9f48-421a-a59e-2bac0b2c85b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shaders">
-      <UniqueIdentifier>{99970de2-f020-4d10-827c-1645f92c725c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="basicRayTracing.cpp">
@@ -35,18 +32,6 @@
     </ClCompile>
     <ClCompile Include="scene.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="normal.cpp">
-      <Filter>Source Files\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="quadrants.cpp">
-      <Filter>Source Files\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="rawColor.cpp">
-      <Filter>Source Files\shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="diffuse.cpp">
-      <Filter>Source Files\shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="light_directional.h">
       <Filter>Source Files\sceneComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="shaders.h">
-      <Filter>Source Files\shaders</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

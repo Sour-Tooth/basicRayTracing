@@ -5,15 +5,13 @@
 #include "scene.h"
 #include "vec3.h"
 #include "ray.h"
-
-#include "sphere.h"
 #include "hitRec.h"
-#include "shaders.h"
 
 inline void writePixel(const color_t& color);
 inline point3_t canvasToViewport(int x, int y);
 color_t traceRay(Ray r, Scene& scene);
-
+color_t quadrants(int x, int y);
+color_t colorByNormal(HitRec rec);
 double computeLighting(Vec3 normal, point3_t point, Scene& scene);
 
 int main() {
@@ -68,6 +66,21 @@ point3_t inline canvasToViewport(int x, int y) {
 	};
 };
 
+color_t quadrants(int x, int y) {
+	// quadrants 1 -> 4 : white, red, green, blue 
+	if (x > 0 && y > 0) {
+		return{ 255, 255, 255 };
+	} else if (x > 0 && y < 0) {
+		return{ 255, 0, 0 };
+	} else if (x < 0 && y < 0) {
+		return { 0, 255, 0 };
+	} else if (x < 0 && y > 0) {
+		return { 0, 0, 255 };
+	} else {
+		return { 0, 0, 0 };
+	}
+};
+
 color_t traceRay(Ray r, Scene& scene) {
 	HitRec closestRec{
 		.doesHit = false, 
@@ -91,13 +104,14 @@ color_t traceRay(Ray r, Scene& scene) {
 	};
 
 	if (closestRec.sphere != nullptr) {
-		//return { shaders::colorByNormal(closestRec) };
+		//auto temp { colorByNormal(closestRec) };
+		//return { temp };
 		
 		return { computeLighting(closestRec.normal, r.at(closestRec.intersectionDistance), scene) * 
 			closestRec.sphere->getColor() 
 		};
 	} else {
-		return { 255, 255, 255 }; // background
+		return { 255, 255, 255 }; // white background
 	};
 
 	// for sphere in scene
@@ -117,4 +131,12 @@ double computeLighting(Vec3 normal, point3_t point, Scene& scene) {
 	};
 
 	return i;
+};
+
+color_t colorByNormal(HitRec rec) {
+	return {
+		127.5 * (rec.normal.getX() + 1),
+		127.5 * (rec.normal.getY() + 1),
+		127.5 * (rec.normal.getZ() + 1)
+	};
 };

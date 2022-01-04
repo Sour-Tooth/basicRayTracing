@@ -141,10 +141,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="basicRayTracing.cpp" />
-    <ClCompile Include="diffuse.cpp" />
-    <ClCompile Include="normal.cpp" />
-    <ClCompile Include="quadrants.cpp" />
-    <ClCompile Include="rawColor.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="vec3.cpp" />
@@ -158,7 +154,6 @@
     <ClInclude Include="light_directional.h" />
     <ClInclude Include="light_point.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="shaders.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="ray.h" />
   </ItemGroup>
